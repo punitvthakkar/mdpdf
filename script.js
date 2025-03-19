@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
     // DOM Elements
     const themeSwitch = document.getElementById('theme-switch');
@@ -6,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const printBtn = document.getElementById('print-btn');
     const previewContainer = document.getElementById('preview-container');
     const markdownPreview = document.getElementById('markdown-preview');
-    const printContainer = document.getElementById('print-container');
+    const printFrame = document.getElementById('print-frame');
     
     // Check for saved theme preference
     const savedTheme = localStorage.getItem('mdpdf-theme');
@@ -63,15 +64,148 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         
-        // Prepare print container with the content
-        printContainer.innerHTML = content;
-        
-        // Add a small delay to ensure content is fully rendered
-        setTimeout(() => {
-            // Trigger the print dialog
-            window.print();
-        }, 200);
+        // Begin printing process
+        printFormattedContent(content);
     });
+    
+    // Function to handle printing
+    function printFormattedContent(content) {
+        // Get the title if available from the first H1 tag
+        let title = "Document";
+        const headerMatch = markdownInput.value.match(/^#\s+(.+)$/m);
+        if (headerMatch && headerMatch[1]) {
+            title = headerMatch[1].trim();
+        }
+        
+        try {
+            // Create a new document in the iframe with the content
+            const frameDoc = printFrame.contentDocument || printFrame.contentWindow.document;
+            
+            // Create the complete HTML document for printing
+            frameDoc.open();
+            frameDoc.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>${title}</title>
+                    <style>
+                        @page {
+                            margin: 1cm;
+                        }
+                        body {
+                            font-family: 'Georgia', serif;
+                            font-size: 12pt;
+                            line-height: 1.6;
+                            color: #000;
+                            background-color: #fff;
+                            margin: 0;
+                            padding: 2cm;
+                        }
+                        h1, h2, h3, h4, h5, h6 {
+                            font-family: 'Georgia', serif;
+                            margin-top: 1.5em;
+                            margin-bottom: 0.5em;
+                            line-height: 1.2;
+                            page-break-after: avoid;
+                        }
+                        h1 {
+                            font-size: 24pt;
+                            border-bottom: 1px solid #e0e0e0;
+                            padding-bottom: 0.3em;
+                        }
+                        h2 {
+                            font-size: 18pt;
+                            border-bottom: 1px solid #e0e0e0;
+                            padding-bottom: 0.3em;
+                        }
+                        p {
+                            margin-bottom: 1rem;
+                        }
+                        a {
+                            color: #3a5a78;
+                            text-decoration: none;
+                        }
+                        code {
+                            font-family: monospace;
+                            background-color: #f5f5f5;
+                            padding: 0.2em 0.4em;
+                            border-radius: 3px;
+                        }
+                        pre {
+                            background-color: #f5f5f5;
+                            padding: 1rem;
+                            border-radius: 4px;
+                            overflow-x: auto;
+                            margin-bottom: 1rem;
+                            page-break-inside: avoid;
+                            white-space: pre-wrap;
+                        }
+                        blockquote {
+                            border-left: 4px solid #3a5a78;
+                            padding-left: 1rem;
+                            margin-left: 0;
+                            color: #555;
+                            page-break-inside: avoid;
+                        }
+                        table {
+                            border-collapse: collapse;
+                            width: 100%;
+                            margin-bottom: 1rem;
+                            page-break-inside: avoid;
+                        }
+                        th, td {
+                            padding: 0.5rem;
+                            border: 1px solid #e0e0e0;
+                        }
+                        img {
+                            max-width: 100%;
+                            page-break-inside: avoid;
+                        }
+                        ul, ol {
+                            margin-bottom: 1rem;
+                            padding-left: 2rem;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="print-document">
+                        ${content}
+                    </div>
+                </body>
+                </html>
+            `);
+            frameDoc.close();
+
+            // Wait for the content to load properly
+            printBtn.disabled = true;
+            printBtn.textContent = 'Preparing...';
+            
+            // Use a timeout to ensure content is fully loaded
+            setTimeout(() => {
+                try {
+                    // Focus on the iframe
+                    printFrame.contentWindow.focus();
+                    // Call the print function on the iframe
+                    printFrame.contentWindow.print();
+                    
+                    // Reset the button after printing
+                    printBtn.textContent = 'Print';
+                    printBtn.disabled = false;
+                } catch (e) {
+                    console.error('Printing error:', e);
+                    alert('There was an error opening the print dialog. Please try again.');
+                    printBtn.textContent = 'Print';
+                    printBtn.disabled = false;
+                }
+            }, 500);
+            
+        } catch (e) {
+            console.error('Error preparing print document:', e);
+            alert('There was an error preparing your document for printing. Please try again.');
+            printBtn.textContent = 'Print';
+            printBtn.disabled = false;
+        }
+    }
     
     // Auto-resize textarea as content grows
     markdownInput.addEventListener('input', function() {
