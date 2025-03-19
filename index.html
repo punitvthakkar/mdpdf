@@ -3,18 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mdpdf - Markdown to PDF Converter</title>
+    <title>mdpdf - Markdown to Print Converter</title>
     <link rel="stylesheet" href="styles.css">
     <!-- Marked.js for Markdown parsing -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
-    <!-- html2pdf.js for PDF generation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>mdpdf</h1>
-            <p>Convert markdown to beautiful PDF documents</p>
+            <p>Convert markdown to beautiful printable documents</p>
             <div class="theme-toggle">
                 <label class="switch">
                     <input type="checkbox" id="theme-switch">
@@ -29,7 +27,7 @@
                 <textarea id="markdown-input" placeholder="Paste your markdown here..."></textarea>
                 <div class="button-container">
                     <button id="preview-btn">Preview</button>
-                    <button id="download-btn" disabled>Download PDF</button>
+                    <button id="print-btn" disabled>Print</button>
                 </div>
             </div>
             
@@ -39,9 +37,12 @@
         </main>
         
         <footer>
-            <p>mdpdf - No server, no storage, just markdown to PDF conversion in your browser.</p>
+            <p>mdpdf - No server, no storage, just markdown to printable documents in your browser.</p>
         </footer>
     </div>
+    
+    <!-- Print-only container (hidden from normal view) -->
+    <div id="print-container" class="print-only"></div>
     
     <script src="script.js"></script>
 </body>
