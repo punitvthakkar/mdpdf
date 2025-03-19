@@ -192,11 +192,6 @@ button:disabled {
     font-family: var(--font-main);
 }
 
-/* Print container (hidden in normal view) */
-.print-only {
-    display: none;
-}
-
 /* PDF Preview Styling */
 .preview-content h1, 
 .preview-content h2, 
@@ -284,118 +279,106 @@ button:disabled {
     padding-left: 2rem;
 }
 
+/* Print styles for the print template */
+.print-document {
+    font-family: 'Georgia', serif;
+    font-size: 12pt;
+    line-height: 1.6;
+    color: #000;
+    background-color: #fff;
+    margin: 0;
+    padding: 2cm;
+}
+
+.print-document h1,
+.print-document h2,
+.print-document h3,
+.print-document h4,
+.print-document h5,
+.print-document h6 {
+    font-family: 'Georgia', serif;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    line-height: 1.2;
+    page-break-after: avoid;
+}
+
+.print-document h1 {
+    font-size: 24pt;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 0.3em;
+}
+
+.print-document h2 {
+    font-size: 18pt;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 0.3em;
+}
+
+.print-document p {
+    margin-bottom: 1rem;
+}
+
+.print-document a {
+    color: #3a5a78;
+    text-decoration: none;
+}
+
+.print-document code {
+    font-family: monospace;
+    background-color: #f5f5f5;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+}
+
+.print-document pre {
+    background-color: #f5f5f5;
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    page-break-inside: avoid;
+    white-space: pre-wrap;
+}
+
+.print-document blockquote {
+    border-left: 4px solid #3a5a78;
+    padding-left: 1rem;
+    margin-left: 0;
+    color: #555;
+    page-break-inside: avoid;
+}
+
+.print-document table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 1rem;
+    page-break-inside: avoid;
+}
+
+.print-document th,
+.print-document td {
+    padding: 0.5rem;
+    border: 1px solid #e0e0e0;
+}
+
+.print-document img {
+    max-width: 100%;
+    page-break-inside: avoid;
+}
+
+.print-document ul,
+.print-document ol {
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+}
+
 /* Footer */
 footer {
     margin-top: 2rem;
     text-align: center;
     font-size: 0.9rem;
     color: rgba(var(--text-color), 0.7);
-}
-
-/* Print styles - these apply when the page is being printed */
-@media print {
-    body {
-        margin: 0;
-        padding: 0;
-        background-color: white;
-        color: black;
-    }
-    
-    .container, 
-    header, 
-    .editor-container, 
-    .button-container, 
-    footer, 
-    .theme-toggle {
-        display: none;
-    }
-    
-    .print-only {
-        display: block;
-        margin: 0;
-        padding: 2cm;
-        font-family: Georgia, serif;
-        font-size: 12pt;
-        line-height: 1.6;
-    }
-    
-    .print-only h1,
-    .print-only h2,
-    .print-only h3,
-    .print-only h4,
-    .print-only h5,
-    .print-only h6 {
-        font-family: Georgia, serif;
-        margin-top: 1.5em;
-        margin-bottom: 0.5em;
-        line-height: 1.2;
-        page-break-after: avoid;
-    }
-    
-    .print-only h1 {
-        font-size: 24pt;
-        border-bottom: 1px solid #e0e0e0;
-        padding-bottom: 0.3em;
-    }
-    
-    .print-only h2 {
-        font-size: 18pt;
-        border-bottom: 1px solid #e0e0e0;
-        padding-bottom: 0.3em;
-    }
-    
-    .print-only a {
-        color: #3a5a78;
-        text-decoration: none;
-    }
-    
-    .print-only code {
-        font-family: monospace;
-        background-color: #f5f5f5;
-        padding: 0.2em 0.4em;
-        border-radius: 3px;
-    }
-    
-    .print-only pre {
-        background-color: #f5f5f5;
-        padding: 1rem;
-        border-radius: 4px;
-        overflow-x: auto;
-        margin-bottom: 1rem;
-        page-break-inside: avoid;
-    }
-    
-    .print-only blockquote {
-        border-left: 4px solid #3a5a78;
-        padding-left: 1rem;
-        margin-left: 0;
-        color: #555;
-        page-break-inside: avoid;
-    }
-    
-    .print-only table {
-        border-collapse: collapse;
-        width: 100%;
-        margin-bottom: 1rem;
-        page-break-inside: avoid;
-    }
-    
-    .print-only th,
-    .print-only td {
-        padding: 0.5rem;
-        border: 1px solid #e0e0e0;
-    }
-    
-    .print-only img {
-        max-width: 100%;
-        page-break-inside: avoid;
-    }
-    
-    .print-only ul,
-    .print-only ol {
-        margin-bottom: 1rem;
-        padding-left: 2rem;
-    }
 }
 
 /* Responsive adjustments */
